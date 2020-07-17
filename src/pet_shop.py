@@ -57,14 +57,10 @@ def transaction(pet_shop, pet, customer):
     add_pet_to_customer(customer, pet)
 
 def sell_pet_to_customer(pet_shop, pet, customer):
-    if pet in pet_shop["pets"]:
-        if customer_can_afford_pet(customer, pet):
-            transaction(pet_shop, pet, customer)
-        else:
-            print(f"{customer['name']} cannot afford to buy {pet['name']}. Transaction cancelled!")
-    else:
+    if pet not in pet_shop["pets"]:
         print("Sorry, we don't have that pet in this store!")
-
-
-
-
+    elif not customer_can_afford_pet(customer, pet):
+        print(f"{customer['name']} cannot afford to buy {pet['name']}. Transaction cancelled!")   
+    else:
+         transaction(pet_shop, pet, customer)   
+        
