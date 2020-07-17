@@ -49,10 +49,22 @@ def add_pet_to_customer(customer, pet):
 def customer_can_afford_pet(customer, pet):
     return get_customer_cash(customer) >= pet["price"]
 
-def sell_pet_to_customer(pet_shop, pet, customer):
-    price = pet["price"]
+def transaction(pet_shop, pet, customer):
     remove_pet_by_name(pet_shop, pet["name"])
-    add_or_remove_cash(pet_shop, price)
+    add_or_remove_cash(pet_shop, pet["price"])
     increase_pets_sold(pet_shop, 1)
-    remove_customer_cash(customer, price)
+    remove_customer_cash(customer, pet["price"])
     add_pet_to_customer(customer, pet)
+
+def sell_pet_to_customer(pet_shop, pet, customer):
+    if pet in pet_shop["pets"]:
+        if customer_can_afford_pet(customer, pet):
+            transaction(pet_shop, pet, customer)
+        else:
+            print(f"{customer['name']} cannot afford to buy {pet['name']}. Transaction cancelled!")
+    else:
+        print("Sorry, we don't have that pet in this store!")
+
+
+
+
